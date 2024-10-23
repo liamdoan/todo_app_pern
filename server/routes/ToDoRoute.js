@@ -1,7 +1,8 @@
 const router = require('express').Router();
+const { getToDo, saveToDo } = require('../controllers/ToDoController');
 
-router.get('/', (req, res) => {
-    res.json({message: "hello there ..."})
-})
+router.get('/', getToDo);
+router.post('/save', saveToDo);
+
 
 module.exports = router;
