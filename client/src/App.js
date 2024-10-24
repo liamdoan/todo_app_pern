@@ -50,7 +50,7 @@ const App = () => {
         .then((res) => {
             console.log(res.data);
             const updatedTodos = todos.map(todo => 
-                todo._id === id ? { ...todo, task: editingText, description: editingDesc } : todo
+                todo._id === id ? { ...todo, task: res.data.updatedTodo.task, description: res.data.updatedTodo.description, updatedAt: res.data.updatedTodo.updatedAt } : todo
             );
             setTodos(updatedTodos)
             // reset

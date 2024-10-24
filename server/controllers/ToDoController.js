@@ -26,8 +26,8 @@ module.exports.updateToDo = (req, res) => {
     const {id} = req.params;
     const {task, description} = req.body;
 
-    ToDoModel.findByIdAndUpdate(id, {task, description})
-    .then(() => res.send('Task updated'))
+    ToDoModel.findByIdAndUpdate(id, {task, description}, {new: true})
+    .then((updatedTodo) => res.send({message: 'Task updated!', updatedTodo}))
     .catch((err) => {
         console.log(err);
         res.send({error: err, msg: "Something is wrong!"})
