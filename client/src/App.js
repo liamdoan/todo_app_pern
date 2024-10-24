@@ -113,25 +113,25 @@ const App = () => {
                     {
                     todoEditing === todo._id 
                     ? 
-                    <div className="input-edit-wrap">  
-                        <input type="text" 
-                            onChange={(e) => setEditingText(e.target.value)} 
-                            value={editingText}/>
-                        <input type="text" 
-                            onChange={(e) => setEditingDesc(e.target.value)} 
-                            value={editingDesc}/>
-                    </div>
+                        <div className="input-edit-wrap">  
+                            <input type="text" 
+                                onChange={(e) => setEditingText(e.target.value)} 
+                                value={editingText}/>
+                            <input type="text" 
+                                onChange={(e) => setEditingDesc(e.target.value)} 
+                                value={editingDesc}/>
+                        </div>
                     : 
-                    <div className="input-show">
-                        <p className="input-show-name">{todo.task}</p>
-                        <p className="input-show-desc">{todo.description}</p>
-                        <p className="input-show-time">
-                            <span className="span-time">{todo.timeCreate}</span>
-                        </p>
-                        <p className="input-show-time">
-                        <span className="span-time">{todo.timeUpdate}</span>
-                        </p>
-                    </div>
+                        <div className="input-show">
+                            <p className="input-show-name">{todo.task}</p>
+                            <p className="input-show-desc">{todo.description}</p>
+                            <p className="input-show-time">
+                                <span className="span-time">{todo.timeCreate}</span>
+                            </p>
+                            <p className="input-show-time">
+                            <span className="span-time">{todo.timeUpdate}</span>
+                            </p>
+                        </div>
                     }
                     {/* 'todo' is changable */}
                     <div className="buttons">
@@ -143,13 +143,15 @@ const App = () => {
                         />
                         {
                             todoEditing === todo._id 
-                            ?   <button 
+                            ?   
+                                <button 
                                     className="submit-edit-btn" 
                                     onClick={() => editTask(todo._id)}
                                 >
                                     Submit Edit
                                 </button>
-                            :   <button 
+                            :   
+                                <button 
                                     className="edit-btn" 
                                     onClick={() => {
                                         setTodoEditing(todo._id)
@@ -162,13 +164,15 @@ const App = () => {
                         }
                         {
                             todoEditing === todo._id
-                            ?   <button 
+                            ?   
+                                <button 
                                     className="delete-btn" 
                                     onClick={() => cancelEditTask()}
                                     >
                                         Cancel
                                 </button>
-                            :   <button 
+                            :   
+                                <button 
                                     className="delete-btn" 
                                     onClick={() => deleteTask(todo._id)}
                                     >
