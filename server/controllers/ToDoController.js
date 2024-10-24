@@ -38,7 +38,7 @@ module.exports.updateToDo = (req, res) => {
 module.exports.deleteToDo = (req, res) => {
     const {id} = req.params;
 
-    ToDoModel.findByIdAndDelete(id, {task})
+    ToDoModel.findByIdAndDelete(id)
     .then(() => res.send('Task deleted!'))
     .catch((err) => {
         console.log(err);
