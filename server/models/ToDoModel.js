@@ -4,6 +4,10 @@ const ToDoSchema = new mongoose.Schema({
     task: {
         type: String,
         required: true
+    },
+    description: {
+        type: String,
+        required: false
     }
 });
 
