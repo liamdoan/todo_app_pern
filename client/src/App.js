@@ -63,6 +63,13 @@ const App = () => {
         })
     }
 
+    // CANCEL EDITING/UPDATING
+    const cancelEditTask = () => {
+        setTodoEditing(null)
+        setEditingText("")
+        setEditingDesc("")
+    }
+
     // DELETE
     const deleteTask = (id) => {
         axios
@@ -153,12 +160,21 @@ const App = () => {
                                     Edit Tasks
                                 </button>
                         }
-                        <button 
-                            className="delete-btn" 
-                            onClick={() => deleteTask(todo._id)}
-                        >
-                            Delete
-                        </button>
+                        {
+                            todoEditing === todo._id
+                            ?   <button 
+                                    className="delete-btn" 
+                                    onClick={() => cancelEditTask()}
+                                    >
+                                        Cancel
+                                </button>
+                            :   <button 
+                                    className="delete-btn" 
+                                    onClick={() => deleteTask(todo._id)}
+                                    >
+                                        Delete
+                            </button>
+                        }
                     </div>
                 </div>
             )}
