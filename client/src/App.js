@@ -1,6 +1,7 @@
-import React, {useState} from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 import './App.css';
-
+import { baseUrl } from './utils/api';
 
 const App = () => {
     let time = String(new window.Date());
@@ -15,66 +16,72 @@ const App = () => {
     const [editingText, setEditingText] = useState("");
     const [editingDesc, setEditingDesc] = useState("");
 
-    // SUBMIT
-    function handleSubmit(e) {
-        e.preventDefault();
+    useEffect(() => {
+        axios.get(`${baseUrl}/get`)
+        .then ((res) => {
+            console.log(res.data)
+            setTodos(res.data)
+        })
+    }, [])
 
-        const newTodo = {
-        id: new Date().getTime(),
-        // better to have id when working with multiple object
-        timeCreate: "Created at: " + date,
-        timeUpdate: "",
-        text: todo,
-        description: desc,
-        completed: false
-        }
-        setTodos([...todos].concat(newTodo))
-        setTodo("")
-        setDesc("")
-    };
+    // SUBMIT
+    const addTask = () => {
+        axios
+        .post(`${baseUrl}/save`, {task: todo})
+        .then ((res) => {
+            console.log(res.data);
+            setTodo("");
+            setDesc("");
+        })
+    }
 
     // TOGGLE COMPLETE
-    function toggleComplete(id) {
+    function toggleComplete(_id) {
         const updatedTodos = [...todos].map(todo => {
-        if (todo.id === id) {
-            todo.completed = !todo.completed
-        }
-        return todo
+            if (todo._id === _id) {
+                todo.completed = !todo.completed
+            }
+            return todo
         })
         setTodos(updatedTodos)
     }
 
-    // EDIT TODO
-    function editTodo(id) {
-        const updatedTodos = [...todos].map(todo => {
-        if(todo.id === id ) {
-            todo.text = editingText
-            todo.description = editingDesc
-            todo.timeUpdate = "Update at: " + date
-        }
-        return todo
+    // EDIT/UPDATE
+    const editTask = (id) => {
+        axios
+        .put(`${baseUrl}/update/${id}`, {task: editingText})
+        .then((res) => {
+            console.log(res.data);
+            const updatedTodos = todos.map(todo => 
+                todo._id === id ? { ...todo, task: editingText, description: editingDesc } : todo
+            );
+            setTodos(updatedTodos)
+            // reset
+            setTodoEditing(null)
+            setEditingText("")
+            setEditingDesc("")
         })
-        setTodos(updatedTodos)
-        // reset
-        setTodoEditing(null)
-        setEditingText("")
-        setEditingDesc("")
     }
 
     // DELETE
-    function deleteTodo(id) {
-        const updatedTodos = [...todos].filter(todo => todo.id !== id)
-        setTodos(updatedTodos)
+    const deleteTask = (id) => {
+        axios
+        .delete(`${baseUrl}/delete/${id}`)
+        .then((res) => {
+            console.log(res.data);
+            const updatedTodos = [...todos].filter(todo => todo._id !== id)
+            setTodos(updatedTodos)
+        })
     }
 
     return (
         <div className="wrapper">
             <h1>Tasks for today</h1>
             {/*FORM*/}
-            <form className="todo-form" onSubmit={handleSubmit}>
+            <form className="todo-form" onSubmit={addTask}>
                 <div className="input-column">
                 <input type="text" 
-                        placeholder="What to do"
+                        placeholder="Task"
                         onChange={(e) => setTodo(e.target.value)}
                         value={todo}
                         className="todo-input"/>
@@ -93,9 +100,11 @@ const App = () => {
             {/*LIST*/}
             {todos.map(todo => 
                 <div className="todo-row" 
-                        key={todo.id}>
+                        key={todo._id}
+                >
+                    <span>{todo._id}</span> {/* delete later */}
                     {
-                    todoEditing === todo.id 
+                    todoEditing === todo._id 
                     ? 
                     <div className="input-edit-wrap">  
                         <input type="text" 
@@ -107,7 +116,7 @@ const App = () => {
                     </div>
                     : 
                     <div className="input-show">
-                        <p className="input-show-name">{todo.text}</p>
+                        <p className="input-show-name">{todo.task}</p>
                         <p className="input-show-desc">{todo.description}</p>
                         <p className="input-show-time">
                             <span className="span-time">{todo.timeCreate}</span>
@@ -121,23 +130,23 @@ const App = () => {
                     <div className="buttons">
                         <input 
                             type="checkbox" 
-                            onChange={() => toggleComplete(todo.id)}
+                            onChange={() => toggleComplete(todo._id)}
                             checked={todo.completed}
                             className="check-complete"
                         />
                         {
-                            todoEditing === todo.id 
+                            todoEditing === todo._id 
                             ?   <button 
                                     className="submit-edit-btn" 
-                                    onClick={() => editTodo(todo.id)}
+                                    onClick={() => editTask(todo._id)}
                                 >
                                     Submit Edit
                                 </button>
                             :   <button 
                                     className="edit-btn" 
                                     onClick={() => {
-                                        setTodoEditing(todo.id)
-                                        setEditingText(todo.text); // keep current text
+                                        setTodoEditing(todo._id)
+                                        setEditingText(todo.task); // keep current text
                                         setEditingDesc(todo.description); // keep current desc
                                     }}
                                 >
@@ -146,7 +155,7 @@ const App = () => {
                         }
                         <button 
                             className="delete-btn" 
-                            onClick={() => deleteTodo(todo.id)}
+                            onClick={() => deleteTask(todo._id)}
                         >
                             Delete
                         </button>
@@ -158,3 +167,45 @@ const App = () => {
 }
 
 export default App;
+
+    // // SUBMIT
+    // function handleSubmit(e) {
+    //     e.preventDefault();
+
+    //     const newTodo = {
+    //         id: new Date().getTime(),
+    //         // better to have id when working with multiple object
+    //         timeCreate: "Created: " + date,
+    //         timeUpdate: "",
+    //         text: todo,
+    //         description: desc,
+    //         completed: false
+    //     }
+    //     setTodos([...todos].concat(newTodo))
+    //     setTodo("")
+    //     setDesc("")
+    // };
+
+    // // DELETE
+    // function deleteTodo(_id) {
+    //     const updatedTodos = [...todos].filter(todo => todo._id !== _id)
+    //     setTodos(updatedTodos)
+            //make deleted task disappear on screen
+    // }
+
+    // // EDIT TODO
+    // function editTodo(id) {
+    //     const updatedTodos = [...todos].map(todo => {
+    //         if(todo._id === id ) {
+    //             todo.text = editingText
+    //             todo.description = editingDesc
+    //             todo.timeUpdate = "Updated: " + date
+    //         }
+    //         return todo
+    //     })
+    //     setTodos(updatedTodos)
+    //     // reset
+    //     setTodoEditing(null)
+    //     setEditingText("")
+    //     setEditingDesc("")
+    // }
