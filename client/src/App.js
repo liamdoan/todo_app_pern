@@ -27,7 +27,7 @@ const App = () => {
     // SUBMIT
     const addTask = () => {
         axios
-        .post(`${baseUrl}/save`, {task: todo})
+        .post(`${baseUrl}/save`, {task: todo, description: desc})
         .then ((res) => {
             console.log(res.data);
             setTodo("");
@@ -49,7 +49,7 @@ const App = () => {
     // EDIT/UPDATE
     const editTask = (id) => {
         axios
-        .put(`${baseUrl}/update/${id}`, {task: editingText})
+        .put(`${baseUrl}/update/${id}`, {task: editingText, description: editingDesc})
         .then((res) => {
             console.log(res.data);
             const updatedTodos = todos.map(todo => 
@@ -109,7 +109,6 @@ const App = () => {
                 <div className="todo-row" 
                         key={todo._id}
                 >
-                    <span>{todo._id}</span> {/* delete later */}
                     {
                     todoEditing === todo._id 
                     ? 
