@@ -125,10 +125,10 @@ const App = () => {
                             <p className="input-show-name">{todo.task}</p>
                             <p className="input-show-desc">{todo.description}</p>
                             <p className="input-show-time">
-                                <span className="span-time">{todo.timeCreate}</span>
+                                <span className="span-time">Created at: {new Date(todo.createdAt).toLocaleString()}</span>
                             </p>
                             <p className="input-show-time">
-                            <span className="span-time">{todo.timeUpdate}</span>
+                            <span className="span-time">Updated at: {new Date(todo.updatedAt).toLocaleString()}</span>
                             </p>
                         </div>
                     }
