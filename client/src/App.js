@@ -135,7 +135,11 @@ const App = () => {
                                 </button>
                             :   <button 
                                     className="edit-btn" 
-                                    onClick={() => setTodoEditing(todo.id)}
+                                    onClick={() => {
+                                        setTodoEditing(todo.id)
+                                        setEditingText(todo.text); // keep current text
+                                        setEditingDesc(todo.description); // keep current desc
+                                    }}
                                 >
                                     Edit Tasks
                                 </button>
