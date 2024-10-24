@@ -4,9 +4,6 @@ import './App.css';
 import { baseUrl } from './utils/api';
 
 const App = () => {
-    let time = String(new window.Date());
-    let date = time.slice(0,25);
-
     const [todos, setTodos] = useState([]);
     const [todo, setTodo] = useState("");
     const [desc, setDesc] = useState("");
@@ -186,6 +183,9 @@ const App = () => {
 }
 
 export default App;
+
+    // let time = String(new window.Date());
+    // let date = time.slice(0,25);
 
     // // SUBMIT
     // function handleSubmit(e) {
