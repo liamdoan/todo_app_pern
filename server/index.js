@@ -21,7 +21,7 @@ mongoose
 app.use(cors());
 app.use(express.json());
 
-app.use(routes);
+app.use('/api',routes);
 
 app.listen(PORT, () => {
     console.log(`server is up, listening on port ${PORT}`);

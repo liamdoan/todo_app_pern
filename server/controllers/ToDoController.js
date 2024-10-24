@@ -1,18 +1,47 @@
 const ToDoModel = require('../models/ToDoModel');
 
-module.exports.getToDo = async (req, res) => {
-    const toDo = await ToDoModel.find();
-    res.send(toDo);
+//get all todos
+module.exports.getToDos = async (req, res) => {
+    // res.send("helllo") //test if routes works
+    const toDos = await ToDoModel.find();
+    res.send(toDos);
 };
 
+//create a new todo
 module.exports.saveToDo = async (req, res) => {
-    const {text} = req.body;
+    const {task} = req.body;
 
-    ToDoModel
-    .create({text})
+    ToDoModel.create({task})
     .then((data) => {
-        console.log("added ok")
-        console.log(data)
-        res.send(data)
+        console.log("new task saved!")
+        res.status(201).send(data);
+    }).catch((err) => {
+        console.log(err);
+        res.send({error: err, msg: "Something is wrong!"})
+    })
+};
+
+//update a todo
+module.exports.updateToDo = (req, res) => {
+    const {id} = req.params;
+    const {task} = req.body;
+
+    ToDoModel.findByIdAndUpdate(id, {task})
+    .then(() => res.send('Task updated'))
+    .catch((err) => {
+        console.log(err);
+        res.send({error: err, msg: "Something is wrong!"})
+    })
+};
+
+//delete a todo
+module.exports.deleteToDo = (req, res) => {
+    const {id} = req.params;
+
+    ToDoModel.findByIdAndDelete(id, {task})
+    .then(() => res.send('Task deleted!'))
+    .catch((err) => {
+        console.log(err);
+        res.send({error: err, msg: "Something is wrong!"})
     })
 };
