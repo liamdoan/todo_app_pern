@@ -2,193 +2,189 @@
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   }
   
-  body {
-    background: linear-gradient(90deg, rgba(93, 12, 255, 1) 0%,
-    rgba(155, 0, 250, 1) 100%);
-  }
+body {
+  background: linear-gradient(90deg, rgba(93, 12, 255, 1) 0%,
+  rgba(155, 0, 250, 1) 100%);
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: start; */
+  width: 600px;
+  min-height: 600px;
+  background: #161a2b;
+  text-align: center;
+  margin: 128px auto;
+  border-radius: 10px;
+  padding-bottom: 32px;
+}
+
+h1 {
+  display: flex;
+  justify-content: center;
+  margin: 32px 0;
+  color: #fff;
+  font-size: 24px;
+}
   
-  .wrapper {
-    display: flex;
-    flex-direction: column;
-    /* justify-content: start; */
-    width: 600px;
-    min-height: 600px;
-    background: #161a2b;
-    text-align: center;
-    margin: 128px auto;
-    border-radius: 10px;
-    padding-bottom: 32px;
-  }
-  
-  h1 {
-    display: flex;
-    justify-content: center;
-    margin: 32px 0;
-    color: #fff;
-    font-size: 24px;
-  }
-  
-  .todo-form {
-    /* background-color: teal; */
-    padding: 20px;
-    margin-bottom: 32px;
-    display: flex;
-    justify-content: center;
-  }
-  
-  .todo-input {
-    padding: 14px 32px 14px 16px;
-    border-radius: 4px 0 0 4px;
-    border: 2px solid #5d0cff;
-    outline: none;
-    width: 350px;
-    background: transparent;
-    color: #fff;
-  }
-  
-  .desc-input {
-    padding: 14px 32px 14px 16px;
-    border-radius: 4px 0 0 4px;
-    border: 2px solid #5d0cff;
-    outline: none;
-    width: 350px;
-    background: transparent;
-    color: #fff;
-  }
-  
-  .todo-input::placeholder {
-    color: #989696;
-  }
-  
-  .desc-input::placeholder {
-    color: #989696;
-  }
-  
-  .submit-button {
-    padding: 15px;
-    border: none;
-    border-radius: 0 4px 4px 0;
-    cursor: pointer;
-    outline: none;
-    background: linear-gradient(
-      90deg,
-      rgba(93, 12, 255, 1) 0%,
-      rgba(155, 0, 250, 1) 100%
-    );
-    color: #fff;
-    /* text-transform: capitalize; */
-  }
-  
-  /* --------------------LIST------------------------- */
-  .todo-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 4px auto;
-    color: #fff;
-    background: linear-gradient(
-      90deg,
-      rgb(233, 194, 18) 0%,
-      rgb(172, 143, 13) 100%
-    );
-  
-    padding: 16px;
-    border-radius: 5px;
-    width: 460px;
-  }
-  
-  .todo-row:nth-child(4n + 1) {
-    background: linear-gradient(
-      90deg,
-      rgba(93, 12, 255, 1) 0%,
-      rgba(155, 0, 250, 1) 100%
-    );
-  }
-  
-  .todo-row:nth-child(4n + 2) {
-    background: linear-gradient(90deg, rgb(220, 19, 19) 0%, rgb(142, 3, 3) 100%);
-  }
-  
-  .todo-row:nth-child(4n + 3) {
-    background: linear-gradient(
-      90deg,
-      rgb(92, 175, 235) 0%,
-      rgb(12, 79, 167) 100%
-    );
-  }
-  
-  .input-edit-wrap {
-    /* background-color: blue; */
-    /* align-self: start; */
-  }
-  
-  .input-show {
-    /* background-color: red; */
-  }
-  
-  .input-show-time {
-    font-size: 12px;
-  }
-  
-  .span-time {
-    font-style: italic;
-  }
-  
-  .input-show-desc {
-    font-style: italic;
-  }
-  
-  .buttons {
-    display: flex;
-    align-items: center;
-  }
-  
-  .check-complete {
-    width: 25px;
-    height: 25px;
-    /* position: relative; */
-    margin-right: 5px;
-    margin-left: 10px;
-  }
-  
-  .delete-btn {
-    margin: 5px;
-    padding: 7px;
-    border: none;
-    border-radius: 0 4px 4px 0;
-    cursor: pointer;
-    outline: none;
-    background: linear-gradient(
-      90deg,
-      rgb(25, 25, 25) 0%,
-      rgb(111, 111, 111) 100%
-    );
-    color: #fff;
-  }
-  
-  .edit-btn {
-    min-width: 75px;
-    padding: 7px;
-    border: none;
-    border-radius: 0 4px 4px 0;
-    cursor: pointer;
-    outline: none;
-    background: linear-gradient(
-      90deg,
-      rgb(25, 25, 25) 0%,
-      rgb(111, 111, 111) 100%
-    );
-    color: #fff;
-  }
-  
-  .submit-edit-btn {
-    min-width: 75px;
-    padding: 7px;
-    border: none;
-    border-radius: 0 4px 4px 0;
-    cursor: pointer;
-    outline: none;
-    background: linear-gradient(90deg, rgb(202, 5, 5) 0%, rgb(121, 38, 38) 100%);
-    color: #fff;
-  }
-  
+.todo-form {
+  padding: 20px;
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: center;
+}
+
+.todo-input {
+  padding: 14px 32px 14px 16px;
+  border-radius: 4px 0 0 4px;
+  border: 2px solid #5d0cff;
+  outline: none;
+  width: 350px;
+  background: transparent;
+  color: #fff;
+}
+
+.desc-input {
+  padding: 14px 32px 14px 16px;
+  border-radius: 4px 0 0 4px;
+  border: 2px solid #5d0cff;
+  outline: none;
+  width: 350px;
+  background: transparent;
+  color: #fff;
+}
+
+.todo-input::placeholder {
+  color: #989696;
+}
+
+.desc-input::placeholder {
+  color: #989696;
+}
+
+.submit-button {
+  padding: 15px;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  outline: none;
+  background: linear-gradient(
+    90deg,
+    rgba(93, 12, 255, 1) 0%,
+    rgba(155, 0, 250, 1) 100%
+  );
+  color: #fff;
+  /* text-transform: capitalize; */
+}
+
+/* LIST */
+.todo-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 4px auto;
+  color: #fff;
+  background: linear-gradient(
+    90deg,
+    rgb(233, 194, 18) 0%,
+    rgb(172, 143, 13) 100%
+  );
+
+  padding: 16px;
+  border-radius: 5px;
+  width: 460px;
+}
+
+.todo-row:nth-child(4n + 1) {
+  background: linear-gradient(
+    90deg,
+    rgba(93, 12, 255, 1) 0%,
+    rgba(155, 0, 250, 1) 100%
+  );
+}
+
+.todo-row:nth-child(4n + 2) {
+  background: linear-gradient(90deg, rgb(220, 19, 19) 0%, rgb(142, 3, 3) 100%);
+}
+
+.todo-row:nth-child(4n + 3) {
+  background: linear-gradient(
+    90deg,
+    rgb(92, 175, 235) 0%,
+    rgb(12, 79, 167) 100%
+  );
+}
+
+.input-edit-wrap {
+  /* align-self: start; */
+}
+
+.input-show {
+}
+
+.input-show-time {
+  font-size: 12px;
+}
+
+.span-time {
+  font-style: italic;
+}
+
+.input-show-desc {
+  font-style: italic;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+}
+
+.check-complete {
+  width: 25px;
+  height: 25px;
+  /* position: relative; */
+  margin-right: 5px;
+  margin-left: 10px;
+}
+
+.delete-btn {
+  margin: 5px;
+  padding: 7px;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  outline: none;
+  background: linear-gradient(
+    90deg,
+    rgb(25, 25, 25) 0%,
+    rgb(111, 111, 111) 100%
+  );
+  color: #fff;
+}
+
+.edit-btn {
+  min-width: 75px;
+  padding: 7px;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  outline: none;
+  background: linear-gradient(
+    90deg,
+    rgb(25, 25, 25) 0%,
+    rgb(111, 111, 111) 100%
+  );
+  color: #fff;
+}
+
+.submit-edit-btn {
+  min-width: 75px;
+  padding: 7px;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  outline: none;
+  background: linear-gradient(90deg, rgb(202, 5, 5) 0%, rgb(121, 38, 38) 100%);
+  color: #fff;
+}
