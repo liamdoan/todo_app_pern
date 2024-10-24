@@ -131,49 +131,48 @@ const App = () => {
                     }
                     {/* 'todo' is changable */}
                     <div className="buttons">
-                        <input 
-                            type="checkbox" 
-                            onChange={() => toggleComplete(todo._id)}
-                            checked={todo.completed}
-                            className="check-complete"
-                        />
                         {
                             todoEditing === todo._id 
                             ?   
-                                <button 
-                                    className="submit-edit-btn" 
-                                    onClick={() => editTask(todo._id)}
-                                >
-                                    Submit Edit
-                                </button>
-                            :   
-                                <button 
-                                    className="edit-btn" 
-                                    onClick={() => {
-                                        setTodoEditing(todo._id)
-                                        setEditingText(todo.task); // keep current text
-                                        setEditingDesc(todo.description); // keep current desc
-                                    }}
-                                >
-                                    Edit Tasks
-                                </button>
-                        }
-                        {
-                            todoEditing === todo._id
-                            ?   
-                                <button 
-                                    className="delete-btn" 
-                                    onClick={() => cancelEditTask()}
+                                <>
+                                    <button 
+                                        className="submit-edit-btn" 
+                                        onClick={() => editTask(todo._id)}
                                     >
-                                        Cancel
-                                </button>
+                                        Submit Edit
+                                    </button>
+                                    <button 
+                                        className="delete-btn" 
+                                        onClick={() => cancelEditTask()}
+                                        >
+                                            Cancel
+                                    </button>
+                                </>
                             :   
-                                <button 
-                                    className="delete-btn" 
-                                    onClick={() => deleteTask(todo._id)}
+                                <>
+                                    <input 
+                                        type="checkbox" 
+                                        onChange={() => toggleComplete(todo._id)}
+                                        checked={todo.completed}
+                                        className="check-complete"
+                                    />
+                                    <button 
+                                        className="edit-btn" 
+                                        onClick={() => {
+                                            setTodoEditing(todo._id)
+                                            setEditingText(todo.task); // keep current text
+                                            setEditingDesc(todo.description); // keep current desc
+                                        }}
                                     >
-                                        Delete
-                            </button>
+                                        Edit Tasks
+                                    </button>
+                                    <button 
+                                        className="delete-btn" 
+                                        onClick={() => deleteTask(todo._id)}
+                                        >
+                                            Delete
+                                    </button>
+                                </>
                         }
                     </div>
                 </div>
