@@ -120,8 +120,7 @@ const App = () => {
                                 <span className="span-time">
                                     Created at: {new Date(todo.createdAt).toLocaleString()}
                                 </span>
-                            </p>
-                            <p className="input-show-time">
+                                <br />
                                 <span className="span-time">
                                     Updated at: {new Date(todo.updatedAt).toLocaleString()}
                                 </span>
@@ -151,8 +150,8 @@ const App = () => {
                                     className="edit-btn"
                                     onClick={() => {
                                         setTodoEditing(todo._id);
-                                        setEditingText(todo.task); // keep current text
-                                        setEditingDesc(todo.description); // keep current desc
+                                        setEditingText(todo.task);
+                                        setEditingDesc(todo.description);
                                     }}
                                 >
                                     Edit Tasks

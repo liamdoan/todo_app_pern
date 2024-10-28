@@ -35,16 +35,7 @@ h1 {
   justify-content: center;
 }
 
-.todo-input {
-  padding: 14px 32px 14px 16px;
-  border-radius: 4px 0 0 4px;
-  border: 2px solid #5d0cff;
-  outline: none;
-  width: 350px;
-  background: transparent;
-  color: #fff;
-}
-
+.todo-input,
 .desc-input {
   padding: 14px 32px 14px 16px;
   border-radius: 4px 0 0 4px;
@@ -55,10 +46,7 @@ h1 {
   color: #fff;
 }
 
-.todo-input::placeholder {
-  color: #989696;
-}
-
+.todo-input::placeholder,
 .desc-input::placeholder {
   color: #989696;
 }
@@ -75,7 +63,6 @@ h1 {
     rgba(155, 0, 250, 1) 100%
   );
   color: #fff;
-  /* text-transform: capitalize; */
 }
 
 /* LIST */
@@ -117,21 +104,21 @@ h1 {
 }
 
 .input-edit-wrap {
-  /* align-self: start; */
 }
-
 .input-show {
 }
 
 .input-show-time {
-  font-size: 12px;
+  font-size: 10px;
 }
 
 .span-time {
   font-style: italic;
+  margin-bottom: 30px;
 }
 
 .input-show-desc {
+  font-size: 14px;
   font-style: italic;
 }
 
@@ -143,7 +130,6 @@ h1 {
 .check-complete {
   width: 25px;
   height: 25px;
-  /* position: relative; */
   margin-right: 5px;
   margin-left: 10px;
 }
