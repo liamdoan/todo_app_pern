@@ -35,10 +35,10 @@ const App = () => {
             console.log(res.data);
 
             const updatedTodos = todos.map((todo) => {
-               return todo._id === id ? {...todo, isCompleted: res.data.updatedTodo.isCompleted} : todo
+                return todo._id === id ? { ...todo, isCompleted: res.data.updatedTodo.isCompleted } : todo;
             });
-            setTodos(updatedTodos)
-        })
+            setTodos(updatedTodos);
+        });
     }
 
     // EDIT/UPDATE
@@ -170,7 +170,6 @@ const App = () => {
 };
 
 export default App;
-
 
 //Test client side
 
