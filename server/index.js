@@ -23,6 +23,8 @@ app.use(express.json());
 
 app.use('/api',routes);
 
+app.use(express.static(path.join(__dirname, '../client/build')));
+
 app.listen(PORT, () => {
     console.log(`server is up, listening on port ${PORT}`);
 });
