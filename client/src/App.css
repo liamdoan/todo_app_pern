@@ -133,6 +133,9 @@ h1 {
   margin-right: 5px;
   margin-left: 10px;
 }
+.check-complete:hover {
+  cursor: pointer;
+}
 
 .delete-btn {
   margin: 5px;
