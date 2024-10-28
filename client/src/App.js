@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
 import { baseUrl } from './utils/api';
+import Spinner from './component/Spinner';
 
 const App = () => {
     const [todos, setTodos] = useState([]);
@@ -13,17 +14,26 @@ const App = () => {
     const [editingText, setEditingText] = useState('');
     const [editingDesc, setEditingDesc] = useState('');
 
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
-        axios.get(`${baseUrl}/get`).then((res) => {
-            console.log(res.data);
-            setTodos(res.data);
-        });
+        const fetchTodos = async () => {
+            try {
+                const res = await axios.get(`${baseUrl}/get`);
+                setTodos(res.data);
+                setLoading(false);
+            } catch (err) {
+                console.error(err);
+                setLoading(false); // Ensure loading is false even on error
+            }
+        };
+
+        fetchTodos();
     }, []);
 
     // SUBMIT
     const addTask = () => {
-        axios.post(`${baseUrl}/save`, { task: todo, description: desc }).then((res) => {
-            console.log(res.data);
+        axios.post(`${baseUrl}/save`, { task: todo, description: desc }).then(() => {
             setTodo('');
             setDesc('');
         });
@@ -32,8 +42,6 @@ const App = () => {
     // TOGGLE COMPLETE
     function toggleCompleted(id) {
         axios.put(`${baseUrl}/toggle/${id}`).then((res) => {
-            console.log(res.data);
-
             const updatedTodos = todos.map((todo) => {
                 return todo._id === id ? { ...todo, isCompleted: res.data.updatedTodo.isCompleted } : todo;
             });
@@ -44,7 +52,6 @@ const App = () => {
     // EDIT/UPDATE
     const editTask = (id) => {
         axios.put(`${baseUrl}/update/${id}`, { task: editingText, description: editingDesc }).then((res) => {
-            console.log(res.data);
             const updatedTodos = todos.map((todo) =>
                 todo._id === id
                     ? {
@@ -72,8 +79,7 @@ const App = () => {
 
     // DELETE
     const deleteTask = (id) => {
-        axios.delete(`${baseUrl}/delete/${id}`).then((res) => {
-            console.log(res.data);
+        axios.delete(`${baseUrl}/delete/${id}`).then(() => {
             const updatedTodos = [...todos].filter((todo) => todo._id !== id);
             setTodos(updatedTodos);
         });
@@ -104,66 +110,77 @@ const App = () => {
                     Add Tasks
                 </button>
             </form>
-            {/*LIST*/}
-            {todos.map((todo) => (
-                <div className="todo-row" key={todo._id}>
-                    {todoEditing === todo._id ? (
-                        <div className="input-edit-wrap">
-                            <input type="text" onChange={(e) => setEditingText(e.target.value)} value={editingText} />
-                            <input type="text" onChange={(e) => setEditingDesc(e.target.value)} value={editingDesc} />
-                        </div>
-                    ) : (
-                        <div className="input-show">
-                            <p className="input-show-name">{todo.task}</p>
-                            <p className="input-show-desc">{todo.description}</p>
-                            <p className="input-show-time">
-                                <span className="span-time">
-                                    Created at: {new Date(todo.createdAt).toLocaleString()}
-                                </span>
-                                <br />
-                                <span className="span-time">
-                                    Updated at: {new Date(todo.updatedAt).toLocaleString()}
-                                </span>
-                            </p>
-                        </div>
-                    )}
-                    {/* 'todo' is changable */}
-                    <div className="buttons">
+            {loading ? (
+                <Spinner />
+            ) : (
+                todos.map((todo) => (
+                    <div className="todo-row" key={todo._id}>
                         {todoEditing === todo._id ? (
-                            <>
-                                <button className="submit-edit-btn" onClick={() => editTask(todo._id)}>
-                                    Submit Edit
-                                </button>
-                                <button className="delete-btn" onClick={() => cancelEditTask()}>
-                                    Cancel
-                                </button>
-                            </>
-                        ) : (
-                            <>
+                            <div className="input-edit-wrap">
                                 <input
-                                    type="checkbox"
-                                    onChange={() => toggleCompleted(todo._id)}
-                                    checked={todo.isCompleted}
-                                    className="check-complete"
+                                    type="text"
+                                    onChange={(e) => setEditingText(e.target.value)}
+                                    value={editingText}
                                 />
-                                <button
-                                    className="edit-btn"
-                                    onClick={() => {
-                                        setTodoEditing(todo._id);
-                                        setEditingText(todo.task);
-                                        setEditingDesc(todo.description);
-                                    }}
-                                >
-                                    Edit Tasks
-                                </button>
-                                <button className="delete-btn" onClick={() => deleteTask(todo._id)}>
-                                    Delete
-                                </button>
-                            </>
+                                <input
+                                    type="text"
+                                    onChange={(e) => setEditingDesc(e.target.value)}
+                                    value={editingDesc}
+                                />
+                            </div>
+                        ) : (
+                            <div className="input-show">
+                                <p className="input-show-name">{todo.task}</p>
+                                <p className="input-show-desc">{todo.description}</p>
+                                <p className="input-show-time">
+                                    <span className="span-time">
+                                        Created at: {new Date(todo.createdAt).toLocaleString()}
+                                    </span>
+                                    <br />
+                                    <span className="span-time">
+                                        Updated at: {new Date(todo.updatedAt).toLocaleString()}
+                                    </span>
+                                </p>
+                            </div>
                         )}
+                        {/* 'todo' is changable */}
+                        <div className="buttons">
+                            {todoEditing === todo._id ? (
+                                <>
+                                    <button className="submit-edit-btn" onClick={() => editTask(todo._id)}>
+                                        Submit Edit
+                                    </button>
+                                    <button className="delete-btn" onClick={() => cancelEditTask()}>
+                                        Cancel
+                                    </button>
+                                </>
+                            ) : (
+                                <>
+                                    <input
+                                        type="checkbox"
+                                        onChange={() => toggleCompleted(todo._id)}
+                                        checked={todo.isCompleted}
+                                        className="check-complete"
+                                    />
+                                    <button
+                                        className="edit-btn"
+                                        onClick={() => {
+                                            setTodoEditing(todo._id);
+                                            setEditingText(todo.task);
+                                            setEditingDesc(todo.description);
+                                        }}
+                                    >
+                                        Edit Tasks
+                                    </button>
+                                    <button className="delete-btn" onClick={() => deleteTask(todo._id)}>
+                                        Delete
+                                    </button>
+                                </>
+                            )}
+                        </div>
                     </div>
-                </div>
-            ))}
+                ))
+            )}
         </div>
     );
 };
