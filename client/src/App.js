@@ -30,14 +30,15 @@ const App = () => {
     };
 
     // TOGGLE COMPLETE
-    function toggleComplete(_id) {
-        const updatedTodos = [...todos].map((todo) => {
-            if (todo._id === _id) {
-                todo.completed = !todo.completed;
-            }
-            return todo;
-        });
-        setTodos(updatedTodos);
+    function toggleCompleted(id) {
+        axios.put(`${baseUrl}/toggle/${id}`).then((res) => {
+            console.log(res.data);
+
+            const updatedTodos = todos.map((todo) => {
+               return todo._id === id ? {...todo, isCompleted: res.data.updatedTodo.isCompleted} : todo
+            });
+            setTodos(updatedTodos)
+        })
     }
 
     // EDIT/UPDATE
@@ -80,7 +81,7 @@ const App = () => {
 
     return (
         <div className="wrapper">
-            <h1>Tasks for today</h1>
+            <h1>My Tasks</h1>
             {/*FORM*/}
             <form className="todo-form" onSubmit={addTask}>
                 <div className="input-column">
@@ -142,8 +143,8 @@ const App = () => {
                             <>
                                 <input
                                     type="checkbox"
-                                    onChange={() => toggleComplete(todo._id)}
-                                    checked={todo.completed}
+                                    onChange={() => toggleCompleted(todo._id)}
+                                    checked={todo.isCompleted}
                                     className="check-complete"
                                 />
                                 <button
@@ -170,6 +171,9 @@ const App = () => {
 
 export default App;
 
+
+//Test client side
+
 // let time = String(new window.Date());
 // let date = time.slice(0,25);
 
@@ -184,12 +188,23 @@ export default App;
 //         timeUpdate: "",
 //         text: todo,
 //         description: desc,
-//         completed: false
+//         isCompleted: false
 //     }
 //     setTodos([...todos].concat(newTodo))
 //     setTodo("")
 //     setDesc("")
 // };
+
+// // TOGGLE COMPLETE
+// function toggleComplete(_id) {
+//     const updatedTodos = [...todos].map((todo) => {
+//         if (todo._id === _id) {
+//             todo.completed = !todo.completed;
+//         }
+//         return todo;
+//     });
+//     setTodos(updatedTodos);
+// }
 
 // // DELETE
 // function deleteTodo(_id) {
