@@ -25,6 +25,14 @@ app.use('/api',routes);
 
 app.use(express.static(path.join(__dirname, '../client/build')));
 
+app.get('*', (_, res) => {
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'), function(err){
+        if(err){
+            res.status(500).send(err)
+        }
+    });
+});
+
 app.listen(PORT, () => {
     console.log(`server is up, listening on port ${PORT}`);
 });
