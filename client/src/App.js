@@ -24,7 +24,7 @@ const App = () => {
                 setLoading(false);
             } catch (err) {
                 console.error(err);
-                setLoading(false); // Ensure loading is false even on error
+                setLoading(false);
             }
         };
 
@@ -32,11 +32,18 @@ const App = () => {
     }, []);
 
     // SUBMIT
-    const addTask = () => {
-        axios.post(`${baseUrl}/save`, { task: todo, description: desc }).then(() => {
+    const addTask = async (e) => {
+        e.preventDefault();
+
+        try {
+            const res = await axios.post(`${baseUrl}/save`, { task: todo, description: desc });
+
+            setTodos([...todos, res.data]);
             setTodo('');
             setDesc('');
-        });
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     // TOGGLE COMPLETE
@@ -106,7 +113,7 @@ const App = () => {
                         className="desc-input"
                     />
                 </div>
-                <button className="submit-button" type="submit">
+                <button className="submit-button" type="submit" aria-label="add task button">
                     Add Tasks
                 </button>
             </form>
