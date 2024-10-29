@@ -83,23 +83,23 @@ const App = () => {
             await axios.delete(`${baseUrl}/delete/${id}`);
             const updatedTodos = [...todos].filter((todo) => todo._id !== id);
             setTodos(updatedTodos);
-        } catch(error) {
-            console.error(error)
+        } catch (error) {
+            console.error(error);
         }
-    }
+    };
 
     // TOGGLE COMPLETE
     const toggleCompleted = async (id) => {
         try {
             const res = await axios.put(`${baseUrl}/toggle/${id}`);
             const updatedTodos = todos.map((todo) =>
-                 todo._id === id ? { ...todo, isCompleted: res.data.updatedTodo.isCompleted } : todo
+                todo._id === id ? { ...todo, isCompleted: res.data.updatedTodo.isCompleted } : todo
             );
             setTodos(updatedTodos);
-        }catch(err) {
-            console.error(err)
+        } catch (err) {
+            console.error(err);
         }
-    }
+    };
 
     return (
         <div className="wrapper">
@@ -198,7 +198,7 @@ const App = () => {
                                     </button>
                                     <button
                                         data-testid={`delete-btn-${todo._id}`}
-                                        className="delete-btn" 
+                                        className="delete-btn"
                                         onClick={() => deleteTask(todo._id)}
                                     >
                                         Delete
