@@ -172,6 +172,7 @@ const App = () => {
                             ) : (
                                 <>
                                     <input
+                                        data-testid={`checkbox-${todo._id}`}
                                         type="checkbox"
                                         onChange={() => toggleCompleted(todo._id)}
                                         checked={todo.isCompleted}
@@ -189,7 +190,11 @@ const App = () => {
                                     >
                                         Edit Tasks
                                     </button>
-                                    <button className="delete-btn" onClick={() => deleteTask(todo._id)}>
+                                    <button
+                                        data-testid={`delete-btn-${todo._id}`}
+                                        className="delete-btn" 
+                                        onClick={() => deleteTask(todo._id)}
+                                    >
                                         Delete
                                     </button>
                                 </>
