@@ -46,19 +46,10 @@ const App = () => {
         }
     };
 
-    // TOGGLE COMPLETE
-    function toggleCompleted(id) {
-        axios.put(`${baseUrl}/toggle/${id}`).then((res) => {
-            const updatedTodos = todos.map((todo) => {
-                return todo._id === id ? { ...todo, isCompleted: res.data.updatedTodo.isCompleted } : todo;
-            });
-            setTodos(updatedTodos);
-        });
-    }
-
     // EDIT/UPDATE
-    const editTask = (id) => {
-        axios.put(`${baseUrl}/update/${id}`, { task: editingText, description: editingDesc }).then((res) => {
+    const editTask = async (id) => {
+        try {
+            const res = await axios.put(`${baseUrl}/update/${id}`, { task: editingText, description: editingDesc });
             const updatedTodos = todos.map((todo) =>
                 todo._id === id
                     ? {
@@ -74,8 +65,20 @@ const App = () => {
             setTodoEditing(null);
             setEditingText('');
             setEditingDesc('');
-        });
+        } catch (error) {
+            console.error(error);
+        }
     };
+
+    // TOGGLE COMPLETE
+    function toggleCompleted(id) {
+        axios.put(`${baseUrl}/toggle/${id}`).then((res) => {
+            const updatedTodos = todos.map((todo) => {
+                return todo._id === id ? { ...todo, isCompleted: res.data.updatedTodo.isCompleted } : todo;
+            });
+            setTodos(updatedTodos);
+        });
+    }
 
     // CANCEL EDITING/UPDATING
     const cancelEditTask = () => {
@@ -154,7 +157,12 @@ const App = () => {
                         <div className="buttons">
                             {todoEditing === todo._id ? (
                                 <>
-                                    <button className="submit-edit-btn" onClick={() => editTask(todo._id)}>
+                                    <button
+                                        data-testid={`edit-btn-${todo._id}`}
+                                        className="submit-edit-btn"
+                                        aria-label="submit edit task button"
+                                        onClick={() => editTask(todo._id)}
+                                    >
                                         Submit Edit
                                     </button>
                                     <button className="delete-btn" onClick={() => cancelEditTask()}>
@@ -170,7 +178,9 @@ const App = () => {
                                         className="check-complete"
                                     />
                                     <button
+                                        data-testid={`edit-btn-${todo._id}`}
                                         className="edit-btn"
+                                        aria-label="edit task button"
                                         onClick={() => {
                                             setTodoEditing(todo._id);
                                             setEditingText(todo.task);
