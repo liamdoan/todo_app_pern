@@ -70,16 +70,6 @@ const App = () => {
         }
     };
 
-    // TOGGLE COMPLETE
-    function toggleCompleted(id) {
-        axios.put(`${baseUrl}/toggle/${id}`).then((res) => {
-            const updatedTodos = todos.map((todo) => {
-                return todo._id === id ? { ...todo, isCompleted: res.data.updatedTodo.isCompleted } : todo;
-            });
-            setTodos(updatedTodos);
-        });
-    }
-
     // CANCEL EDITING/UPDATING
     const cancelEditTask = () => {
         setTodoEditing(null);
@@ -91,6 +81,16 @@ const App = () => {
     const deleteTask = (id) => {
         axios.delete(`${baseUrl}/delete/${id}`).then(() => {
             const updatedTodos = [...todos].filter((todo) => todo._id !== id);
+            setTodos(updatedTodos);
+        });
+    };
+
+    // TOGGLE COMPLETE
+    function toggleCompleted(id) {
+        axios.put(`${baseUrl}/toggle/${id}`).then((res) => {
+            const updatedTodos = todos.map((todo) => {
+                return todo._id === id ? { ...todo, isCompleted: res.data.updatedTodo.isCompleted } : todo;
+            });
             setTodos(updatedTodos);
         });
     };
