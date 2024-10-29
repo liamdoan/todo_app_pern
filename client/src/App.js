@@ -78,21 +78,27 @@ const App = () => {
     };
 
     // DELETE
-    const deleteTask = (id) => {
-        axios.delete(`${baseUrl}/delete/${id}`).then(() => {
+    const deleteTask = async (id) => {
+        try {
+            await axios.delete(`${baseUrl}/delete/${id}`);
             const updatedTodos = [...todos].filter((todo) => todo._id !== id);
             setTodos(updatedTodos);
-        });
-    };
+        } catch(error) {
+            console.error(error)
+        }
+    }
 
     // TOGGLE COMPLETE
-    function toggleCompleted(id) {
-        axios.put(`${baseUrl}/toggle/${id}`).then((res) => {
-            const updatedTodos = todos.map((todo) => {
-                return todo._id === id ? { ...todo, isCompleted: res.data.updatedTodo.isCompleted } : todo;
-            });
+    const toggleCompleted = async (id) => {
+        try {
+            const res = await axios.put(`${baseUrl}/toggle/${id}`);
+            const updatedTodos = todos.map((todo) =>
+                 todo._id === id ? { ...todo, isCompleted: res.data.updatedTodo.isCompleted } : todo
+            );
             setTodos(updatedTodos);
-        });
+        }catch(err) {
+            console.error(err)
+        }
     }
 
     return (
