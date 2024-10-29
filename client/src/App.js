@@ -93,7 +93,7 @@ const App = () => {
             });
             setTodos(updatedTodos);
         });
-    };
+    }
 
     return (
         <div className="wrapper">
