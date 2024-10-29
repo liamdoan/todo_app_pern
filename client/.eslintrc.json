@@ -21,7 +21,10 @@
     ],
     "rules": {
         "no-unused-vars": "warn",
-        "no-console": "warn", // Warns for console.log statements
+        "no-console": [
+            "warn",
+            { "allow": ["error"] } // Allow only console.error
+        ],
         "eqeqeq": "warn", // Warns for use of == instead of ===
         "react/prop-types": "warn" // Warns for missing prop types in React
     },
