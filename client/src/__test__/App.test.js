@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor, waitForElementToBeRemoved, wait } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import App from '../App';
 import axios from 'axios';
 import '@testing-library/jest-dom/extend-expect'
