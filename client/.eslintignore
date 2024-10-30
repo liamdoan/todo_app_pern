@@ -1,4 +1,4 @@
 **/*.test.js
 **/*.spec.js
-__tests__/
-tests/
+__test__/
+test/
