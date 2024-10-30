@@ -164,7 +164,7 @@ const App = () => {
                             {todoEditing === todo._id ? (
                                 <>
                                     <button
-                                        data-testid={`edit-btn-${todo._id}`}
+                                        data-testid={`submit-edit-btn-${todo._id}`}
                                         className="submit-edit-btn"
                                         aria-label="submit edit task button"
                                         onClick={() => editTask(todo._id)}
