@@ -134,13 +134,13 @@ const App = () => {
                         {todoEditing === todo._id ? (
                             <div className="input-edit-wrap">
                                 <input
-                                    className='input-edit-task'
+                                    className="input-edit-task"
                                     type="text"
                                     onChange={(e) => setEditingText(e.target.value)}
                                     value={editingText}
                                 />
                                 <input
-                                    className='input-edit-desc'
+                                    className="input-edit-desc"
                                     type="text"
                                     onChange={(e) => setEditingDesc(e.target.value)}
                                     value={editingDesc}
