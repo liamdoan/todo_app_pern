@@ -47,7 +47,7 @@ module.exports.toggleCompleted = (req, res) => {
             if (!updatedTodo) {
                 return res.status(404).send({ message: 'Task not found' });
             }
-            res.send({ message: 'Task updated', updatedTodo });
+            res.send({ message: 'Task toggled!', updatedTodo });
         })
         .catch((err) => {
             console.error(err);
