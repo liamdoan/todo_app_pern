@@ -103,7 +103,7 @@ const App = () => {
 
     return (
         <div className="wrapper">
-            <h1>My Tasks</h1>
+            <h1 data-testid="app-title">My Tasks</h1>
             {/*FORM*/}
             <form className="todo-form" onSubmit={addTask}>
                 <div className="input-column">
