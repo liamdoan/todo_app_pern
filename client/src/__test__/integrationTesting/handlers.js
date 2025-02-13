@@ -73,7 +73,7 @@ export const handlers = [
     }),
 
     rest.delete('/delete/:id', (req, res, ctx) => {
-        const {id} = req.param;
+        const {id} = req.params;
         return res(ctx.status(204));
     })
 ]
