@@ -1,93 +1,98 @@
-const ToDoModel = require('../database/models/ToDoModel');
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
 //get all todos
 module.exports.getToDos = async (req, res) => {
     // res.send("helllo") //test if routes works
-    const toDos = await ToDoModel.find();
-    res.send(toDos);
+    try {
+        const toDos = await prisma.toDo.findMany();
+        res.send(toDos);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({
+            message: "Failed to fetch tasks!"
+        })
+    }
 };
 
 //create a new todo
 module.exports.saveToDo = async (req, res) => {
     const {task, description} = req.body;
 
-    ToDoModel.create({task, description})
-    .then((data) => {
-        console.log("new task saved!")
-        res.status(201).send(data);
-    }).catch((err) => {
-        console.log(err);
-        res.send({error: err, msg: "Something is wrong!"})
-    })
+    try {
+        const newTodo = await prisma.toDo.create({
+            data: {task, description}
+        });
+
+        console.log("new task saved!");
+        res.status(201).send(newTodo);
+    } catch (error) {
+        console.error(error);
+        res.send({error: error, msg: "Something is wrong creating a new task!"});
+    }
 };
 
 //update a todo
-module.exports.updateToDo = (req, res) => {
+module.exports.updateToDo = async (req, res) => {
     const {id} = req.params;
     const {task, description} = req.body;
 
-    ToDoModel.findByIdAndUpdate(id, {task, description}, {new: true})
-    .then((updatedTodo) => res.send({message: 'Task updated!', updatedTodo}))
-    .catch((err) => {
-        console.log(err);
-        res.send({error: err, msg: "Something is wrong!"})
-    })
+    try {
+        const updatedTodo = await prisma.toDo.update({
+            where: {id},
+            data: {task, description}
+        })
+
+        res.send({message: 'Task updated!', updatedTodo})
+    } catch (error) {
+        console.error(error);
+        res.send({error: error, msg: "Something is wrong updating this task!"})
+    }
 };
 
 //toggle
-module.exports.toggleCompleted = (req, res) => {
+module.exports.toggleCompleted = async (req, res) => {
+    // prisma doesnt have buil into toggle operator like mongo's aggregation pipeline
+    // so, need to fetch current value
+    // then, flip current value
+
     const { id } = req.params;
 
-    ToDoModel.findByIdAndUpdate(
-        id,
-        [{ $set: { isCompleted: { $not: "$isCompleted" } } }], // Toggle isCompleted using aggregation pipeline
-        { new: true }
-    )
-        .then((updatedTodo) => {
-            if (!updatedTodo) {
-                return res.status(404).send({ message: 'Task not found' });
-            }
-            res.send({ message: 'Task toggled!', updatedTodo });
+    try {
+        const currentTodo = await prisma.toDo.findUnique({
+            where: {id}
         })
-        .catch((err) => {
-            console.error(err);
-            res.status(500).send({ error: err, msg: "Something went wrong!" });
-        });
+
+        if (!currentTodo) {
+            return res.status(500).send({message: "No task found!"})
+        };
+
+        const updatedTodo = await prisma.toDo.update({
+            where:  {id},
+            data: {
+                isCompleted: !currentTodo.isCompleted
+            }
+        })
+
+        res.status(200).send({ message: 'Task toggled!', updatedTodo})
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: error, msg: "Something went wrong toggling this task!" });
+    }
 };
 
 //delete a todo
-module.exports.deleteToDo = (req, res) => {
+module.exports.deleteToDo = async (req, res) => {
     const {id} = req.params;
 
-    ToDoModel.findByIdAndDelete(id)
-    .then(() => res.send('Task deleted!'))
-    .catch((err) => {
-        console.log(err);
-        res.send({error: err, msg: "Something is wrong!"})
-    })
+    try {
+        await prisma.toDo.delete({
+            where: {id}
+        });
+
+        res.status(200).send('Task deleted!')
+    } catch (error) {
+        console.error(error);
+        res.send({error: error, msg: "Something is wrong deleting this task!"})
+    }
 };
-
-
-//------------
-// module.exports.toggleCompleted = (req, res) => {
-//     const { id } = req.params;
-
-//     // First, find the document to get the current state of `isCompleted`
-//     ToDoModel.findById(id)
-//         .then((todo) => {
-//             if (!todo) {
-//                 return res.status(404).send({ message: 'Task not found' });
-//             }
-
-//             // Flip the value of `isCompleted`
-//             todo.isCompleted = !todo.isCompleted;
-
-//             // Save the updated document
-//             return todo.save();
-//         })
-//         .then((updatedTodo) => res.send({ message: 'Task updated', updatedTodo }))
-//         .catch((err) => {
-//             console.error(err);
-//             res.status(500).send({ error: err, msg: "Something went wrong!" });
-//         });
-// };

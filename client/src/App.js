@@ -51,7 +51,7 @@ const App = () => {
         try {
             const res = await axios.put(`${baseUrl}/update/${id}`, { task: editingText, description: editingDesc });
             const updatedTodos = todos.map((todo) =>
-                todo._id === id
+                todo.id === id
                     ? {
                           ...todo,
                           task: res.data.updatedTodo.task,
@@ -81,7 +81,7 @@ const App = () => {
     const deleteTask = async (id) => {
         try {
             await axios.delete(`${baseUrl}/delete/${id}`);
-            const updatedTodos = [...todos].filter((todo) => todo._id !== id);
+            const updatedTodos = [...todos].filter((todo) => todo.id !== id);
             setTodos(updatedTodos);
         } catch (error) {
             console.error(error);
@@ -93,7 +93,7 @@ const App = () => {
         try {
             const res = await axios.put(`${baseUrl}/toggle/${id}`);
             const updatedTodos = todos.map((todo) =>
-                todo._id === id ? { ...todo, isCompleted: res.data.updatedTodo.isCompleted } : todo
+                todo.id === id ? { ...todo, isCompleted: res.data.updatedTodo.isCompleted } : todo
             );
             setTodos(updatedTodos);
         } catch (err) {
@@ -130,8 +130,8 @@ const App = () => {
                 <Spinner />
             ) : (
                 todos.map((todo) => (
-                    <div className="todo-row" key={todo._id}>
-                        {todoEditing === todo._id ? (
+                    <div className="todo-row" key={todo.id}>
+                        {todoEditing === todo.id ? (
                             <div className="input-edit-wrap">
                                 <input
                                     className="input-edit-task"
@@ -163,13 +163,13 @@ const App = () => {
                         )}
                         {/* 'todo' is changable */}
                         <div className="buttons">
-                            {todoEditing === todo._id ? (
+                            {todoEditing === todo.id ? (
                                 <>
                                     <button
-                                        data-testid={`submit-edit-btn-${todo._id}`}
+                                        data-testid={`submit-edit-btn-${todo.id}`}
                                         className="submit-edit-btn"
                                         aria-label="submit edit task button"
-                                        onClick={() => editTask(todo._id)}
+                                        onClick={() => editTask(todo.id)}
                                     >
                                         Submit Edit
                                     </button>
@@ -180,18 +180,18 @@ const App = () => {
                             ) : (
                                 <>
                                     <input
-                                        data-testid={`checkbox-${todo._id}`}
+                                        data-testid={`checkbox-${todo.id}`}
                                         type="checkbox"
-                                        onChange={() => toggleCompleted(todo._id)}
+                                        onChange={() => toggleCompleted(todo.id)}
                                         checked={todo.isCompleted}
                                         className="check-complete"
                                     />
                                     <button
-                                        data-testid={`edit-btn-${todo._id}`}
+                                        data-testid={`edit-btn-${todo.id}`}
                                         className="edit-btn"
                                         aria-label="edit task button"
                                         onClick={() => {
-                                            setTodoEditing(todo._id);
+                                            setTodoEditing(todo.id);
                                             setEditingText(todo.task);
                                             setEditingDesc(todo.description);
                                         }}
@@ -199,9 +199,9 @@ const App = () => {
                                         Edit Tasks
                                     </button>
                                     <button
-                                        data-testid={`delete-btn-${todo._id}`}
+                                        data-testid={`delete-btn-${todo.id}`}
                                         className="delete-btn"
-                                        onClick={() => deleteTask(todo._id)}
+                                        onClick={() => deleteTask(todo.id)}
                                     >
                                         Delete
                                     </button>
@@ -241,9 +241,9 @@ export default App;
 // };
 
 // // TOGGLE COMPLETE
-// function toggleComplete(_id) {
+// function toggleComplete(id) {
 //     const updatedTodos = [...todos].map((todo) => {
-//         if (todo._id === _id) {
+//         if (todo.id === id) {
 //             todo.completed = !todo.completed;
 //         }
 //         return todo;
@@ -252,8 +252,8 @@ export default App;
 // }
 
 // // DELETE
-// function deleteTodo(_id) {
-//     const updatedTodos = [...todos].filter(todo => todo._id !== _id)
+// function deleteTodo(id) {
+//     const updatedTodos = [...todos].filter(todo => todo.id !== id)
 //     setTodos(updatedTodos)
 //make deleted task disappear on screen
 // }
@@ -261,7 +261,7 @@ export default App;
 // // EDIT TODO
 // function editTodo(id) {
 //     const updatedTodos = [...todos].map(todo => {
-//         if(todo._id === id ) {
+//         if(todo.id === id ) {
 //             todo.text = editingText
 //             todo.description = editingDesc
 //             todo.timeUpdate = "Updated: " + date

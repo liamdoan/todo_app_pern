@@ -10,13 +10,16 @@
   "author": "Lam Doan",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^6.10.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
-    "mongoose": "^8.7.2",
     "nodemon": "^3.1.7"
   },
   "engines": {
     "node": "20.x"
+  },
+  "devDependencies": {
+    "prisma": "^6.10.1"
   }
 }
