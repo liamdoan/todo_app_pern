@@ -11,15 +11,6 @@ dotenv.config();
 
 const routes = require('./routes/ToDoRoute')
 
-mongoose
-.connect(process.env.MONGO_URL)
-.then (() => {
-    console.log('Connected to MongoDB')
-})
-.catch((err) => {
-    console.log(err)
-});
-
 app.use(cors());
 app.use(express.json());
 
