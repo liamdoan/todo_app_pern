@@ -1,4 +1,4 @@
-const ToDoModel = require('../models/ToDoModel');
+const ToDoModel = require('../database/models/ToDoModel');
 
 //get all todos
 module.exports.getToDos = async (req, res) => {

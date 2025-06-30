@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require("path");
 const dotenv = require('dotenv'); //keep keys confidential
+const connectMongo = require('./database/connectMongo');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -34,6 +35,16 @@ app.get('*', (_, res) => {
     });
 });
 
-app.listen(PORT, () => {
-    console.log(`server is up, listening on port ${PORT}`);
-});
+// ensure DB is connected before starting server
+const startServer = async () => {
+    try {
+        await connectMongo();
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
+        });
+    } catch (err) {
+        console.error("Failed to connect to MongoDB. Server not started.");
+    }
+};
+
+startServer();
